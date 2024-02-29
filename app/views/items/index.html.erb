@@ -3,18 +3,20 @@
 <h1>Items</h1>
 
 <div class="d-flex" data-controller="sortable">
-  <ul data-sortable-target="goodList" class="bg-primary">
-    <% @items["good"]&.each do |item| %>
-      <li>
+  <ul data-sortable-target="goodList" class="bg-primary w-25 list-group">
+    <% @items.each do |item| %>
+      <li class="list-group-item">
         <%= item.name %>
+        <%= render "form", item: item, new_status: 1 %>
       </li>
     <% end %>
   </ul>
 
-  <ul data-sortable-target="badList" class="bg-danger">
-    <% @items["bad"]&.each do |item| %>
-      <li>
+  <ul data-sortable-target="badList" class="bg-danger w-25 list-group">
+    <% @bad_items.each do |item| %>
+      <li class="list-group-item">
         <%= item.name %>
+        <%= render "form", item: item, new_status: 0 %>
       </li>
     <% end %>
   </ul>

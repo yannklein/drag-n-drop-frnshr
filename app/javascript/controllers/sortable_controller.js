@@ -16,9 +16,11 @@ export default class extends Controller {
       {
         group: {
             name: 'shared',
-            pull: 'clone' // To clone: set pull to 'clone'
+            pull: 'clone', // To clone: set pull to 'clone'
+            put: false // Do not allow items to be put into this list
         },
-        animation: 150
+        animation: 150,
+        onEnd: this.moveToBad
       }
     );
     new Sortable.create(
@@ -27,8 +29,22 @@ export default class extends Controller {
         group: {
             name: 'shared',
         },
-        animation: 150
+        animation: 150,
+        onEnd: this.moveToGood
       }
     );
+  }
+  moveToBad(event) {
+    console.log(event);
+    const form = event.item.querySelector("form");
+    console.log(form, form.action);
+    // form.submit()
+    fetch(form.action, {
+      method: "PATCH",
+      headers: { "Accept": "application/json" },
+      body: new FormData(form)
+    })
+      .then(r => r.json())
+      .then(data => console.log(data))
   }
 }

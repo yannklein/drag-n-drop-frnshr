@@ -3,7 +3,8 @@ class ItemsController < ApplicationController
 
   # GET /items or /items.json
   def index
-    @items = Item.all.group_by(&:status)
+    @items = Item.all.order(:name)
+    @bad_items = Item.where(status: "bad").order(:name)
   end
 
   # GET /items/1 or /items/1.json
@@ -65,6 +66,8 @@ class ItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def item_params
-      params.require(:item).permit(:status, :name)
+      pp = params.require(:item).permit(:status, :name)
+      pp[:status] = params[:item][:status].to_i
+      pp
     end
 end
